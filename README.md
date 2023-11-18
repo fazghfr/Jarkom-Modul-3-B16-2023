@@ -931,8 +931,48 @@ ab -n 100 -c 10 -p regbody.json -T application/json http://192.186.4.1:8001/api/
 Terdapat 39 yang failed. Ini dikarenakan kami melakukan testing ke satu worker saja. Berdasarkan data di atas, dapat disimpulkan satu worker ini tidak dapat menghandle semua 100 request, hanya 61 request saja.
 
 
+## Soal 17 (GET /me)
+```
+curl -X POST -H "Content-Type: application/json" -d @logbody.json
+http://192.186.4.1:8001/api/auth/login > login_output.txt
+```
+Sehingga didapatkan token suatu user pada login_output.txt
+```
+token=$(cat login_output.txt | jq -r '.token')
+ab -n 100 -c 10 -H "Authorization: Bearer $token" http://192.186.4.1:8001/api/me
+```
+  
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/b4c53b74-34d2-459a-9551-13bb60672208)
 
+Terlihat dari data di atas, terdapat 40 request yang failed. Ini dikarenakan testing atau bencmarking dilakukan pada satu worker, dimana worker ini tidak dapat menghandle semua request yang ada.
 
+## Soal 18 (Load Balancer Domain Laravel)
+
+buat /etc/nginx/sites-a*/lb-riegel
+```
+echo 'upstream laravel {
+        server 192.186.4.1:8001;
+        server 192.186.4.5:8002;
+        server 192.186.4.6:8003;
+ }
+
+ server {
+        listen 80;
+        server_name riegel.canyon.b16.com;
+
+        location / {
+        proxy_pass http://laravel;
+        }
+ }' > /etc/nginx/sites-a*/lb-riegel
+
+ln -s /etc/nginx/sites-available/lb-riegel /etc/nginx/sites-enabled/
+
+service nginx restart
+```
+
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/fb02c3d1-36f6-4096-a7aa-e1948a33c893)
+
+Terlihat bahwa semua request berhasil, jika dibandingkan dengan benchmark yang menggunakan 1 worker, ini menunjukkan bahwa request di handle menggunakan semua worker yang ada.
 
 
 
