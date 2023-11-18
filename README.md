@@ -15,7 +15,7 @@ Notes :
 IP Gateway ke router 192.186.x.2, untuk memenuhi permintaan soal nomor 0. Ada domain yang harus di tujukan ke node worker dengan ip 192.186.x.1. Untuk standarisasi, semua gateway dialihkan ke 192.186.x.2
   
 ## Config Soal 0-6
-**Aura (DHCP Relay)**
+### Aura (DHCP Relay)
 ```
 apt-get update && apt-get install isc-dhcp-relay -y
 
@@ -27,7 +27,7 @@ OPTIONS=
 service isc-dhcp-relay restart
 ```
   
-**Heiter (DNS Server)**
+### Heiter (DNS Server)
 ```
 apt-get update
 apt-get install bind9 -y
@@ -87,7 +87,7 @@ linie		IN      A       192.186.3.5 ;
 lugner		IN      A       192.186.3.6 ; ' > /etc/bind/prak-3/granz.channel.b16.com
 ```
   
-**Himmel (DHCP Server)**
+### Himmel (DHCP Server)
 ```
 apt-get update
 apt-get install isc-dhcp-server -y
@@ -121,7 +121,7 @@ subnet 192.186.1.0 netmask 255.255.255.0 {
 }' >> /etc/dhcp/dhcpd.conf
 ```
   
-**Client (DHCP)**
+### Client (DHCP)
 ```
 nano /etc/network/interfaces.
 
@@ -129,7 +129,7 @@ auto eth0
 iface eth0 inet dhcp
 ```
   
-**Eisen (Load balancer)**
+### Eisen (Load balancer)
 ```
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt-get update
@@ -161,7 +161,7 @@ unlink /etc/nginx/sites-enabled/default
 service nginx restart
 ```
   
-PHP Worker domain Granz (Lawine Linie Lugner)
+### PHP Worker domain Granz (Lawine Linie Lugner)
 ```
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt-get update && apt-get install unzip nginx php php-fpm -y
@@ -202,7 +202,7 @@ service nginx restart
 service php7.3-fpm start
 ```
   
-**[Extras] Helper untuk Switching Algo**
+### [Extras] Helper untuk Switching Algo
 Untuk memudahkan pengerjaan nomor 7 dan 8 Di node load balancer
 ```
 mkdir /root/algo-lb-granz
@@ -363,4 +363,4 @@ echo 'upstream php {
  }' > /root/algo-lb-granz/weightedrr
 ```
 
-
+## Soal 7
