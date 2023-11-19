@@ -5,7 +5,7 @@
 | Nama | NRP |Github |
 |---------------------------|------------|--------|
 |Ahmad Fauzan A | 5025211091 | https://github.com/fazghfr |
-|Syomeron Ansell W | 5025211540 | https://github.com/Ansell10 |
+|Syomeron Ansell W | 5025211250 | https://github.com/Ansell10 |
 
 # Laporan Resmi
 ## Topologi
@@ -724,6 +724,60 @@ proxy_set_header    X-Real-IP $remote_addr;
  }
 ```
 
+## Soal 12
+Pada lb-granz di node Eisen, pada file /etc/nginx/sites-a*/lb-granz
+```
+upstream php {
+        server 192.186.3.1;
+        server 192.186.3.5;
+        server 192.186.3.6;
+ }
+
+ server {
+        listen 8080;
+        server_name _;
+
+        location / {
+        proxy_pass http://php;
+proxy_set_header    X-Real-IP $remote_addr;
+            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header    Host $http_host;
+        }
+
+         location / {
+        allow 192.186.3.69;
+        allow 192.186.3.70;
+        allow 192.186.4.167;
+        allow 192.186.4.168;
+        deny all;
+        proxy_pass http://php;
+    }
+ }
+```
+
+Kemudian tambahkan pada konfigurasi dhcp server
+```
+host Sein {
+        hardware ethernet aa:78:93:ff:7a:68;
+        fixed-address 192.186.4.167;
+}
+
+host Stark {
+        hardware ethernet 12:e3:52:81:11:36;
+        fixed-address 192.186.4.168;
+}
+
+
+host Revolte {
+        hardware ethernet 66:ab:a3:34:6f:b5;
+        fixed-address 192.186.3.69;
+}
+
+host Richter {
+        hardware ethernet 16:d0:23:ab:b5:6b;
+        fixed-address 192.186.3.70;
+}
+```
 
 ## Soal 13-14 (Deploy Laravel)
 ### Denken (Database Server)
