@@ -868,6 +868,100 @@ service nginx restart
 Terlihat bahwa semua request berhasil, jika dibandingkan dengan benchmark yang menggunakan 1 worker, ini menunjukkan bahwa request di handle menggunakan semua worker yang ada.
 
 
+## Soal 19 (Testing PHP FPM)
+Untuk meningkatkan performa dari Worker, coba implementasikan PHP-FPM pada Frieren, Flamme, dan Fern. Untuk testing kinerja naikkan 
+- pm.max_children
+- pm.start_servers
+- pm.min_spare_servers
+- pm.max_spare_servers
+  
+sebanyak tiga percobaan dan lakukan testing sebanyak 100 request dengan 10 request/second kemudian berikan hasil analisisnya pada Grimoire.
+
+
+### Testing 1
+```
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 1
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/57529b1e-7df0-40e6-95eb-73618cdabd23)
+
+
+### Testing 2
+```
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 15
+pm.start_servers = 5
+pm.min_spare_servers = 4
+pm.max_spare_servers = 10' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/0d02c33b-fabf-44cc-96cb-35727defeb16)
+
+
+### Testing 3
+```
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 40
+pm.start_servers = 7
+pm.min_spare_servers = 5
+pm.max_spare_servers = 12' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/032dcee1-d301-44d6-8f6f-13b8c1f1b882)
+
+
+## Soal 20 
+Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Eisen. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
+
+
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/07ec561b-7c74-4c23-8b37-30b5ba210a8e)
+
 
 
 
