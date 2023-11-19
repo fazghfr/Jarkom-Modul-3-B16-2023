@@ -5,7 +5,7 @@
 | Nama | NRP |Github |
 |---------------------------|------------|--------|
 |Ahmad Fauzan A | 5025211091 | https://github.com/fazghfr |
-|Syomeron Ansell W | 5025211540 | https://github.com/Ansell10 |
+|Syomeron Ansell W | 5025211250 | https://github.com/Ansell10 |
 
 # Laporan Resmi
 ## Topologi
