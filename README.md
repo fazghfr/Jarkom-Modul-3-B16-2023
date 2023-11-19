@@ -850,7 +850,7 @@ echo 'upstream laravel {
 
  server {
         listen 80;
-        server_name riegel.canyon.b16.com;
+        server_name _;
 
         location / {
         proxy_pass http://laravel;
@@ -862,7 +862,8 @@ ln -s /etc/nginx/sites-available/lb-riegel /etc/nginx/sites-enabled/
 service nginx restart
 ```
 
-![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/fb02c3d1-36f6-4096-a7aa-e1948a33c893)
+![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/96367502/c5a075a9-db9d-4eab-994c-f064ba6be2a1)
+
 
 Terlihat bahwa semua request berhasil, jika dibandingkan dengan benchmark yang menggunakan 1 worker, ini menunjukkan bahwa request di handle menggunakan semua worker yang ada.
 
