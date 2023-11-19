@@ -959,10 +959,28 @@ service php8.0-fpm restart
 ## Soal 20 
 Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Eisen. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
 
+Konfigurasi pada lb-riegel (load balancer untuk domain riegel)
+```
+upstream laravel {
+        server 192.186.4.1:8001;
+        server 192.186.4.5:8002;
+        server 192.186.4.6:8003;
+ }
 
+ server {
+        listen 80;
+        Server_name _;
+
+        location / {
+        proxy_pass http://laravel;
+        }
+ }
+```
 ![image](https://github.com/fazghfr/Jarkom-Modul-3-B16-2023/assets/114125933/07ec561b-7c74-4c23-8b37-30b5ba210a8e)
 
+Perlu dicatat bahwa konfigurasi phpfpm dari testing di atas sama dengan konfigurasi testing ke 3 dari soal sebelumnya.
 
+Terlihat bahwa algoritma least connection memberikan dampak yang signifikan jika melihat data waktu yang dibutuhkan. Sehingga dapat disimpulkan algoritma least connection untuk kasus di atas efisien untuk diterapkan.
 
 
 
